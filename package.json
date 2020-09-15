@@ -4,10 +4,9 @@
   "description": "Web app to use as a drawing board",
   "main": "webpack.config.js",
   "scripts": {
-    "build-prod": "webpack --mode production",
-    "build-dev": "webpack --mode development",
-    "start-dev-server": "npm run build-dev && npx nodemon server/server.js",
-    "start-prod-server": "npm run build-prod && npx nodemon server/server.js"
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:build": "webpack --mode development --watch",
+    "dev:start-server": "nodemon --watch build --watch --exec \"server/server.js\""
   },
   "repository": {
     "type": "git",
@@ -22,8 +21,10 @@
   "homepage": "https://github.com/SubhamSengupta/DrawingBoard#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "lodash-es": "^4.17.15",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -31,6 +32,7 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^4.4.1",
+    "npm-run-all": "^4.1.5",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   }
