@@ -1,7 +1,17 @@
 import React from "react";
 
+import Header from "./components/Header";
+import Palette from "./components/Palette";
+import Canvas from "./components/Canvas"
+
 const App = () => {
-  return <h1>Hello World!</h1>;
+  return (
+    <div>
+      <Header/>
+      <Palette/>
+      <Canvas/>
+    </div>
+  );
 }
 
 export default App;
