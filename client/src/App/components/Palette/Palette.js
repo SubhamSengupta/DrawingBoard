@@ -1,18 +1,50 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types"
 
-const Palette = () => {
-  return <Section>Palette</Section>
+import { Section } from "./components/styles"
+
+import ToolSelector from "./components/ToolSelector";
+import WidthSelector from "./components/WidthSelector";
+import ColorChooser from "./components/ColorChooser"
+
+const Palette = ({
+  selectedTool,
+  handleToolSelect,
+  selectedWidth,
+  handleWidthSelect,
+  selectedColor,
+  handleColorSelect
+}) => {
+  return (
+    <Section>
+      <ToolSelector
+        selected={selectedTool}
+        handleSelect={handleToolSelect}
+      />
+      <WidthSelector
+        selected={selectedWidth}
+        handleSelect={handleWidthSelect}
+        selectedTool={selectedTool}
+      />
+      <ColorChooser
+        selected={selectedColor}
+        handleSelect={handleColorSelect}
+        selectedTool={selectedTool}
+      />
+    </Section>
+  );
 }
 
-const Section = styled.section`
-  height: 4rem;
-  border-radius: 0.4rem;
-  box-shadow: 0 0 0.4rem 1rem rgba(0, 0, 0, 0.15);
-  margin: 0.5rem 0;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-`;
+Palette.propTypes = {
+  selectedTool: PropTypes.string.isRequired,
+  handleToolSelect: PropTypes.func.isRequired,
+  selectedWidth: PropTypes.number.isRequired,
+  handleWidthSelect: PropTypes.func.isRequired,
+  selectedColor: PropTypes.string.isRequired,
+  handleColorSelect: PropTypes.func.isRequired,
+}
+
+
 
 export default Palette;
