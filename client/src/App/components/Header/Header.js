@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Header = () => {
-  return <H1>Drawing Board</H1>
+  return <H1>&#127912; Drawing Board</H1>
 }
 
 const H1 = styled.h1`
@@ -11,7 +11,7 @@ const H1 = styled.h1`
   margin: 0;
   background: linear-gradient(#555, #111);
   color: white;
-  padding: 1rem 5rem;
+  padding: 1rem 2rem;
   font-weight: normal;
 `;
 
