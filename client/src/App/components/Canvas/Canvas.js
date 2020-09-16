@@ -1,77 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types"
 
-import useListeners from "../../../../utils/hooks/useListeners";
+import useListeners from "./hooks/useListeners";
+import useCanvasDrawing from './hooks/useCanvasDrawing'
 
-const Canvas = () => {
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [canvasContext, setCanvasContext] = useState(null);
-  const [lastMouseCoord, setLastMouseCoord] = useState({});
-  const [currentMouseCoord, setCurrentMouseCoord] = useState({});
-
+const Canvas = ({ selectedTool, selectedWidth, selectedColor }) => {
   const canvasRef = useRef();
 
-  const handleCurrentMouseCoord = event => {
-    if (canvasRef.current) {
-      const { offsetLeft, offsetTop } = canvasRef.current;
-      const { clientX, clientY } = event;
-
-      setCurrentMouseCoord({
-        x: clientX - offsetLeft,
-        y: clientY - offsetTop
-      });
-    }
-  }
-
-  const draw = () => {
-    const { x:currentX = 0, y:currentY = 0 } = currentMouseCoord;
-    const { x:previousX = 0, y:previousY = 0 } = lastMouseCoord;
-
-    if (canvasContext) {
-      canvasContext.beginPath();
-      canvasContext.moveTo(previousX, previousY);
-      canvasContext.lineTo(currentX, currentY);
-      canvasContext.strokeStyle = 'black';
-      canvasContext.lineWidth = 1;
-      canvasContext.stroke();
-      canvasContext.closePath();
-    }
-
-    setLastMouseCoord({ x: currentX, y: currentY });
-  }
-
-  const resetPrevious = event => {
-    const { clientX, clientY } = event;
-    const { offsetLeft, offsetTop } = canvasRef.current;
-    setLastMouseCoord({x: clientX - offsetLeft, y: clientY - offsetTop});
-  }
-
-  const handleMouseMove = e => handleCurrentMouseCoord(e);
-  const handleMouseUp = e => {
-    handleCurrentMouseCoord(e);
-    setIsDrawing(false);
-  }
-  const handleMouseDown = event => {
-    resetPrevious(event);
-    handleCurrentMouseCoord(event)
-    setIsDrawing(true);
-  }
-
+  const {
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp
+  } = useCanvasDrawing({ canvasRef, selectedTool, selectedWidth, selectedColor });
   useListeners({ handleMouseUp, handleMouseMove, handleMouseDown });
-  useEffect(() => {
-    const context = canvasRef.current.getContext('2d');
-    setCanvasContext(context);
-    canvasRef.current.width = window.innerWidth - 5;
-    canvasRef.current.height = window.innerHeight - 100;
-  }, []);
-
-  useEffect(() => {if (isDrawing) draw();}, [currentMouseCoord.x]);
 
   return (
     <CanvasEl ref={canvasRef} height="720px" width="1400px">
       canvas
     </CanvasEl>
   );
+}
+
+Canvas.propTypes = {
+  selectedTool: PropTypes.string.isRequired,
+  selectedWidth: PropTypes.number.isRequired
 }
 
 const CanvasEl = styled.canvas`
